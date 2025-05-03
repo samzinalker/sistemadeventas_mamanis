@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 if (isset($_SESSION['sesion_email'])) {
@@ -13,6 +14,7 @@ if (isset($_SESSION['sesion_email'])) {
         $query->bindParam(':email', $email_sesion, PDO::PARAM_STR);
         $query->execute();
 
+        // Validar que la consulta devuelva al menos un resultado
         if ($query->rowCount() > 0) {
             $usuario = $query->fetch(PDO::FETCH_ASSOC);
 
@@ -20,25 +22,21 @@ if (isset($_SESSION['sesion_email'])) {
             $_SESSION['id_usuario'] = $usuario['id_usuario'];
             $_SESSION['nombres'] = $usuario['nombres'];
             $_SESSION['rol'] = $usuario['rol'];
-
-            // Definir variables locales para facilitar su uso
-            $id_usuario_sesion = $_SESSION['id_usuario'];
-            $nombres_sesion = $_SESSION['nombres'];
-            $rol_sesion = $_SESSION['rol'];
         } else {
-            // Si no se encuentra el usuario
+            // Manejo cuando no se encuentra el usuario
             $_SESSION['error'] = "No se encontró un usuario con el email proporcionado.";
-            header('Location: /sistemadeventas/login');
+            header('Location: ' . $URL . '/login');
             exit();
         }
     } catch (PDOException $e) {
-        // Manejo de errores en la base de datos
+        // Manejo de errores en la consulta
         $_SESSION['error'] = "Error al conectar con la base de datos: " . $e->getMessage();
-        header('Location: /sistemadeventas/login');
+        header('Location: ' . $URL . '/login');
         exit();
     }
 } else {
     // Redirigir si no hay sesión iniciada
-    header('Location: /sistemadeventas/login');
+    header('Location: ' . $URL . '/login');
     exit();
 }
+

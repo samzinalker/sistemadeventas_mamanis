@@ -5,9 +5,9 @@ include('../app/config.php');
 
 session_start();
 
-var_dump($_SESSION);
 
-exit();
+
+
 // Validar si la sesión está activa
 if (!isset($_SESSION['id_usuario']) || !isset($_SESSION['rol'])) {
     $_SESSION['mensaje'] = "Debes iniciar sesión para acceder a esta página.";
