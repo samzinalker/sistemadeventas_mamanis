@@ -6,20 +6,21 @@ include('../app/config.php');
 session_start();
 
 var_dump($_SESSION);
+
 exit();
 // Validar si la sesión está activa
 if (!isset($_SESSION['id_usuario']) || !isset($_SESSION['rol'])) {
     $_SESSION['mensaje'] = "Debes iniciar sesión para acceder a esta página.";
     $_SESSION['icono'] = "error";
-    header('Location: ' . $URL . '/login');
+    header('Location: /sistemadeventas/login');
     exit();
 }
 
 // Validar el rol del usuario
-if ($_SESSION['rol'] !== 'administrador') {
+if (strtolower(trim($_SESSION['rol'])) !== 'administrador') {
     $_SESSION['mensaje'] = "No tienes permisos para acceder a esta página.";
     $_SESSION['icono'] = "error";
-    header('Location: ' . $URL . '/index.php');
+    header('Location: /sistemadeventas/index.php');
     exit();
 }
 

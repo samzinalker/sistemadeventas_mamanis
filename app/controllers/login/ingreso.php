@@ -26,15 +26,11 @@ if ($contador > 0 && password_verify($password_user, $password_user_tabla)) {
     session_start();
     $_SESSION['id_usuario'] = $usuario['id_usuario'];
     $_SESSION['sesion_email'] = $usuario['email'];
+    $_SESSION['rol'] = $usuario['rol'];
+    $_SESSION['nombres'] = $usuario['nombres'];
 
-    // Validar si el rol es nulo
-    if (empty($usuario['rol'])) {
-        $_SESSION['rol'] = 'sin_rol'; // Asignar un valor por defecto
-    } else {
-        $_SESSION['rol'] = $usuario['rol'];
-    }
-
-    header('Location: '.$URL.'/index.php');
+    header('Location: ' . $URL . '/index.php');
+    exit();
 }
 } catch (Exception $e) {
     // Manejo de errores en caso de fallo en la base de datos
