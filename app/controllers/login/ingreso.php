@@ -21,19 +21,21 @@ try {
         $password_user_tabla = $usuario['password_user'];
     }
 
-    // Validar el login
-    if ($contador > 0 && password_verify($password_user, $password_user_tabla)) {
-        session_start();
-        $_SESSION['id_usuario'] = $usuario['id_usuario'];
-        $_SESSION['sesion_email'] = $usuario['email'];
-        $_SESSION['rol'] = $usuario['rol'];
-        header('Location: '.$URL.'/index.php');
+   // Verificar si el usuario existe
+if ($contador > 0 && password_verify($password_user, $password_user_tabla)) {
+    session_start();
+    $_SESSION['id_usuario'] = $usuario['id_usuario'];
+    $_SESSION['sesion_email'] = $usuario['email'];
+
+    // Validar si el rol es nulo
+    if (empty($usuario['rol'])) {
+        $_SESSION['rol'] = 'sin_rol'; // Asignar un valor por defecto
     } else {
-        session_start();
-        $_SESSION['mensaje'] = "Correo o contraseña incorrectos. Por favor, inténtelo de nuevo.";
-        $_SESSION['icono'] = "error";
-        header('Location: '.$URL.'/login');
+        $_SESSION['rol'] = $usuario['rol'];
     }
+
+    header('Location: '.$URL.'/index.php');
+}
 } catch (Exception $e) {
     // Manejo de errores en caso de fallo en la base de datos
     session_start();
