@@ -1,13 +1,18 @@
 <?php
 include('../app/config.php');
+
+
+
 session_start();
 
+var_dump($_SESSION);
+exit();
 // Validar si la sesión está activa
 if (!isset($_SESSION['id_usuario']) || !isset($_SESSION['rol'])) {
     $_SESSION['mensaje'] = "Debes iniciar sesión para acceder a esta página.";
     $_SESSION['icono'] = "error";
     header('Location: '.$URL.'/login');
-    exit();
+    exit(); 
 }
 
 // Validar el rol del usuario (solo administradores pueden acceder)
